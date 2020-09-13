@@ -36,7 +36,7 @@ Game::Game(const int rows, const int cols, const int mines)
     // debug info
 #ifdef DEBUG
     std::cout   << "Game initialized: " << rows << "x" << cols
-                << " with " << mines << "mines"
+                << " with " << mines << " mines"
                 << "\nlogic field at " << &logic
                 << "\nvalues field at " << &values << std::endl;
 #endif

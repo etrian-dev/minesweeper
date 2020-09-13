@@ -90,21 +90,21 @@ int choose_diff(void)
 void custom_settings(int *r, int *c, int *m)
 {
     // choose num rows
-    std::cout << "Custom settings:\n\trows [1, " << MAXROWS << "]\n";
+    std::cout << "Custom settings:\nrows [1, " << MAXROWS << "]\n";
     do
     {
         std::cin >> *r;
     }
     while(*r < 1 || *r > MAXROWS);
     // choose num cols
-    std::cout << "\tcols [1, " << MAXCOLS << "]\n";
+    std::cout << "cols [1, " << MAXCOLS << "]\n";
     do
     {
         std::cin >> *c;
     }
     while(*c < 1 || *c > MAXCOLS);
     // choose num mines
-    std::cout << "\nmines [1, " << (*r) * (*c) - 1 << "]\n";
+    std::cout << "mines [1, " << (*r) * (*c) - 1 << "]\n";
     do
     {
         std::cin >> *m;

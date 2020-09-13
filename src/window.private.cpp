@@ -18,14 +18,14 @@ void Window::wnd_draw(Game& curr_game)
     sf::FloatRect bounds;
 
     int i, j;
-    // draws all the cells in the field
+    // for loops to draw all the cells in the field
     for(i = 0; i < rows; i++)
     {
         for(j = 0; j < cols; j++)
         {
             if(curr_game.is_flagged(j, i))
             {
-                // and if the cell is flagged, draw the texture on top of it
+                // set this rect object's texture to the flag
                 cells[i][j].setTexture(&flag_img, false);
             }
             // else remove texture
@@ -34,16 +34,16 @@ void Window::wnd_draw(Game& curr_game)
                 cells[i][j].setTexture(nullptr, false);
             }
 
-            // if the cell is covered
+            // if the cell is not uncovered, fill it with covered color
             if(logic[i][j] != State::UNCOVERED)
             {
                 cells[i][j].setFillColor(bg_covered);
-                main_wnd.draw(cells[i][j]);
+                main_wnd.draw(cells[i][j]); // draw the cell
             }
             // otherwise set the uncovered background
             else
             {
-                // set the uncovered bg color
+                // set the uncovered bg color and remove the texture if there was any
                 cells[i][j].setFillColor(bg_uncovered);
                 cells[i][j].setTexture(nullptr, false);
                 // draws the cell first
@@ -54,15 +54,17 @@ void Window::wnd_draw(Game& curr_game)
                 // text drawing "black box" that centers it to the cell
                 bounds = txt_obj.getLocalBounds();
                 // the origin of the text obj is changed to the center of the bounding box
-                txt_obj.setOrigin(bounds.left + bounds.width/2.0f, bounds.top + bounds.height/2.0f);
+                txt_obj.setOrigin   (bounds.left + bounds.width/2.0f,
+                                    bounds.top + bounds.height/2.0f);
                 // then the text position is set
-                txt_obj.setPosition(j * SIDE + SIDE/2.0f, i * SIDE + SIDE/2.0f);
+                txt_obj.setPosition (j * SIDE + SIDE/2.0f,
+                                    i * SIDE + SIDE/2.0f);
 
-                main_wnd.draw(txt_obj);
+                main_wnd.draw(txt_obj); // draw text (value)
             }
         }
     }
 
-    // and finally updates the window
+    // and finally update the window
     main_wnd.display();
 }
