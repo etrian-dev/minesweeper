@@ -22,6 +22,8 @@
 
 // game class header
 #include "../include/game.h"
+// useful shared values between window logic and game logic
+#include "../include/states.h"
 
 #include <random> // for the mines'randgen
 #include <ctime>

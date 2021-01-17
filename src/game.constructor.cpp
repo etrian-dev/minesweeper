@@ -23,7 +23,7 @@
 // Game class constructor
 #include "../include/game.h"
 // useful shared values between window logic and game logic
-#include "states.h"
+#include "../include/states.h"
 
 // the code sets the state variables and the playing boards, then the running flag is set to true
 Game::Game(const int rows, const int cols, const int mines)
@@ -59,8 +59,8 @@ Game::Game(const int rows, const int cols, const int mines)
 
     // debug info
 #ifdef DEBUG
-    std::cout   << "Game initialized: " << this->rows << "x" << this->cols
-                << " with " << this->mines << " mines";
+    std::cout   << "Game initialized: " << rows << "x" << cols
+                << " with " << mines << " mines";
 #endif
 }
 

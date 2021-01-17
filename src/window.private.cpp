@@ -22,6 +22,8 @@
 
 // window class header
 #include "../include/window.h"
+// useful shared values between window logic and game logic
+#include "../include/states.h"
 // others
 #include <string>
 

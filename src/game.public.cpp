@@ -22,6 +22,8 @@
 
 // game header
 #include "../include/game.h"
+// useful shared values between window logic and game logic
+#include "../include/states.h"
 
 // place mines and calc values excluding the [y][x] cell provided (the first move)
 void Game::init_game(const int x_clude, const int y_clude)
@@ -57,7 +59,7 @@ void Game::move(const int x, const int y)
         }
         break;
         
-    default: // nothing happens if a cell is already uncovered
+    default: ; // nothing happens if a cell is already uncovered
 #ifdef DEBUG
         std::cout << "Cell [" << y << "][" << x << "] already uncovered\n";
 #endif

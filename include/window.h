@@ -25,7 +25,6 @@
 
 // include game headers
 #include "game.h"
-#include "states.h"
 // include SFML headers for windowing
 #include <SFML/System.hpp>
 #include <SFML/Graphics.hpp>

@@ -1,7 +1,7 @@
 # Minesweeper clone, written in C++ with SFML 2.5.1.
 The program is a clone of the famous game Minesweeper.
 In order to compile it, just clone the repository and then compile it with the following command:
-> g++ [-g] [-D DEBUG] std=c++17 -o minesweeper src/* -lsfml-graphics -lsfml-window -lsfml-system
+> g++ [-g] [-D DEBUG] -std=c++17 -o minesweeper src/* -lsfml-graphics -lsfml-window -lsfml-system
 ### Requirements
 * g++ (or equivalent) that supports c++17
 * SFML library installed in the default PATH (tested with version 2.5.1, but it should work with any recent enough version)
