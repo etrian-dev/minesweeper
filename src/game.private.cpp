@@ -1,4 +1,26 @@
 // private Game class methods
+
+/*
+ * game.private.cpp
+ * This file is part of minesweeper
+ *
+ * Copyright (C) 2021 - etrian-dev
+ *
+ * minesweeper is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * minesweeper is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with minesweeper. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+// game class header
 #include "../include/game.h"
 
 #include <random> // for the mines'randgen
@@ -7,23 +29,20 @@
 #include <algorithm> // for std::find
 
 // given the number of mines of this instance, place them
-// randomly on the field, except the first uncovered cell
+// randomly on the field, except on the first uncovered cell
 void Game::place_mines(const int x_clude, const int y_clude)
 {
     std::random_device rd;
-    // random numbers in the range [0, 2^32-1] with hardware random as seed
-    // generated numbers are ints
+    // random numbers in the range [0, 2^32-1] seeded with hardware randomness (hopefully)
     std::mt19937 rnd_gen(rd());
-    // temp variables
+    
     int x, y;
     int n_mines = m_mines;
     while(n_mines > 0)
     {
-        // tames the modulus to obtain a valid index
+        // modulo to obtain a valid index
         x = rnd_gen() % m_cols;
         y = rnd_gen() % m_rows;
-        // if the cell is not that to be excluded
-        // and there is not a mine already, update logic state
         if(!(x == x_clude && y == y_clude) && logic[y][x] != State::MINE)
         {
             logic[y][x] = State::MINE;

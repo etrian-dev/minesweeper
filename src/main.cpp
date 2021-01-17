@@ -1,4 +1,25 @@
-// Minesweeper powered by SFML, version 2
+// Minesweeper clone, GUI powered by SFML
+
+/*
+ * main.cpp
+ * This file is part of minesweeeper
+ *
+ * Copyright (C) 2021 - etrian-dev
+ *
+ * minesweeeper is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * minesweeeper is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with minesweeeper. If not, see <http://www.gnu.org/licenses/>.
+ */
+
 
 // including my headers first
 #include "../include/game.h"
@@ -10,9 +31,9 @@
 // defines
 #define MAXCOLS 50
 #define MAXROWS 25
-// -> mines in the range [1, cols*rows -1]
+// => mines in the range [1, cols*rows -1]
 
-// functions prototypes
+// function to choose the difficulty and setting custom parameters
 int choose_diff(void);
 void custom_settings(int *r, int *c, int *m);
 
@@ -21,7 +42,7 @@ int main(void)
 {
     // first choose the difficulty
     int diff = choose_diff();
-    // based on the difficulty level chosen set variables
+    // and game parameters are set accordingly
     int rows, cols, mines;
     switch(diff)
     {
@@ -44,31 +65,26 @@ int main(void)
         mines = 99;
         break;
     default:
-        // custom
-        rows = -1;
-        cols = -1;
-        mines = -1;
+        // custom: the call to the function sets their values
+        custom_settings(&rows, &cols, &mines);
         break;
     }
-    // if the custom diff is chosen, then call a function to set values
-    if(rows == -1 || cols == -1 || mines == -1)
-    {
-        custom_settings(&rows, &cols, &mines);
-    }
-    // then init the classes
+
+    // then initialize the Game and Window classes
     Game new_game(rows, cols, mines);
     Window new_wnd(rows, cols);
-    // launch the game loop
+    // launch the main window loop with the game as a parameter
     new_wnd.wnd_loop(new_game);
+
     // game ended, destroy class instances
     return 0;
 }
 
 // choose the game's difficulty
-/**
- * easy:        9 x 9 and 10 mines ->       0.123
- * normal:      16 x 16 and 40 mines ->     0.156
- * hard:        16 x 30 and 99 mines ->     0.206
+/*
+ * easy:        9 x 9 and 10 mines -> P(mine) = 0.123
+ * normal:      16 x 16 and 40 mines -> P(mine) = 0.156
+ * hard:        16 x 30 and 99 mines -> P(mine) = 0.206
  * custom:      choose your own
  */
 int choose_diff(void)
@@ -76,17 +92,17 @@ int choose_diff(void)
     int diff;
     do
     {
-        std::cout<<"Welcome to Minesweeper. Choose the difficulty"
-                 <<"\n\t1) easy : 9 x 9 grid, 10 mines"
-                 <<"\n\t2) normal: 16 x 16 grid, 40 mines"
-                 <<"\n\t3) hard: 16 x 30 grid, 99 mines"
-                 <<"\n\t4) custom: personalized settings\n";
+        std::cout <<"Welcome to Minesweeper. Choose the difficulty\n"
+                  <<"1) easy : 9 x 9 grid, 10 mines\n"
+                  <<"2) normal: 16 x 16 grid, 40 mines\n"
+                  <<"3) hard: 16 x 30 grid, 99 mines\n"
+                  <<"4) custom: personalized settings\n";
         std::cin >> diff;
     }
-    while(diff < 1 || diff > 4);
+    while(diff < 1 || diff > 4); // if diff is not in [1, 4] then loop
     return diff;
 }
-// choose custom number of rows/cols/mines within some boundaries
+// custom parameters for rows/cols/mines within the boundaries defined at the top of the file
 void custom_settings(int *r, int *c, int *m)
 {
     // choose num rows
@@ -110,5 +126,5 @@ void custom_settings(int *r, int *c, int *m)
         std::cin >> *m;
     }
     while(*m < 1 || *m > (*r) * (*c) - 1);
-    // TODO: print ratio? Maybe confirmation loop?
+    /// TODO: print ratio? Maybe y/n prompt?
 }

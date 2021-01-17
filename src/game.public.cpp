@@ -1,56 +1,69 @@
 // public functions of the game class: getters and setters
+
+/*
+ * game.public.cpp
+ * This file is part of minesweeper
+ *
+ * Copyright (C) 2021 - etrian-dev
+ *
+ * minesweeper is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * minesweeper is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with minesweeper. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+// game header
 #include "../include/game.h"
 
-// triggers mine placing etc... after a move has been performed
+// place mines and calc values excluding the [y][x] cell provided (the first move)
 void Game::init_game(const int x_clude, const int y_clude)
 {
     // place mines first
     place_mines(x_clude, y_clude);
-    // then calculate values
     calc_values();
-    // make the move; automatically uncovers zeros too
+    // make the move. Automatically uncovers zeros too
     move(x_clude, y_clude);
 }
 
-// make a move: uncover cell
+// make a move: uncover cell [y][x]
 void Game::move(const int x, const int y)
 {
-    // assumes that cell [y][x] is a valid cell
-    // and decides how the game state changes
     switch(logic[y][x])
     {
     case State::MINE:
-        // the user tried to uncover a mine
-        keep_running = false;
 #ifdef DEBUG
-        std::cout   << "Cell [" << y << "][" << x
-                    << "] is a mine: game lost\n";
+        std::cout << "Cell [" << y << "][" << x << "] is a mine: game lost\n";
 #endif
+        keep_running = false;
         break;
     case State::COVERED:
-        // the cell is uncovered
+#ifdef DEBUG
+        std::cout << "Cell [" << y << "][" << x << "] has been uncovered\n";
+#endif
         logic[y][x] = State::UNCOVERED;
-        // the cell is removed (if necessary) from the flagged vector
         flagged[y][x] = Flag::UNFLAGGED;
-        // then if its value is 0 the recursive uncover function is called
+        // if the cell's value is 0 the recursive uncover function is called
         if(values[y][x] == 0)
         {
             uncover_zeros(x, y);
         }
-#ifdef DEBUG
-        std::cout   << "Cell [" << y << "][" << x
-                    << "] has been uncovered\n";
-#endif
         break;
-        // nothing is done if a cell is already uncovered
+        
+    default: // nothing happens if a cell is already uncovered
 #ifdef DEBUG
-    case State::UNCOVERED:
-        std::cout   << "Cell [" << y << "][" << x
-                    << "] already uncovered\n";
+        std::cout << "Cell [" << y << "][" << x << "] already uncovered\n";
 #endif
     }
 
-    // debug info
+// if the debug flag is asserted, then all the fiels are printed at each move
 #ifdef DEBUG
     int i, j;
     std::cout << "LOGIC\n";
@@ -99,7 +112,7 @@ void Game::flag(const int x, const int y)
         flagged[y][x] = Flag::FLAGGED;
     }
 
-    // debug info
+// if the debug flag is asserted, then all the flagged matrix is printed
 #ifdef DEBUG
     int i, j;
     std::cout << "FLAGS\n";
@@ -128,6 +141,17 @@ void Game::flag(const int x, const int y)
 #endif
 }
 
+// return true if cell [y][x] is flagged, false otherwise
+bool Game::is_flagged(const int x, const int y)
+{
+    if(flagged[y][x] == Flag::UNFLAGGED)
+    {
+        return false;
+    }
+    return true;
+}
+
+// just getters
 int** Game::get_logic(void)
 {
     return logic;
@@ -151,15 +175,6 @@ const int Game::get_mines(void)
 const bool Game::get_continue(void)
 {
     return keep_running;
-}
-// return true if cell [y][x] is flagged, false otherwise
-bool Game::is_flagged(const int x, const int y)
-{
-    if(flagged[y][x] == Flag::UNFLAGGED)
-    {
-        return false;
-    }
-    return true;
 }
 
 // tests victory

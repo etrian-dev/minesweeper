@@ -1,16 +1,38 @@
-// window contructor
-#include "../include/window.h"
-#include <iostream>
+// window class constructor and destructor
 
-#include <filesystem>   // c++ >= 17 header only that supplies a way to get the cwd
-// (the path to the current directory where the exec is)
+/*
+ * window.constructors.cpp
+ * This file is part of minesweeper
+ *
+ * Copyright (C) 2021 - etrian-dev
+ *
+ * minesweeper is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * minesweeper is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with minesweeper. If not, see <http://www.gnu.org/licenses/>.
+ */
+
+ 
+// window header
+#include "../include/window.h"
+// std lib headers
+#include <iostream>
+// c++17 header that supplies a way to get the cwd
+#include <filesystem>
 
 Window::Window(const int rows, const int cols)
 {
 #ifdef DEBUG
     std::cout   << "Current working directory: "
-                << std::filesystem::current_path()
-                << "\n";
+                << std::filesystem::current_path() << "\n";
 #endif
 
     main_wnd.create(
