@@ -61,6 +61,8 @@ private:
 
     // draws to the window the current game's state
     void wnd_draw(Game& curr_game);
+    // gets the absolute path to the resources directory so that they're loaded correctly
+    std::string get_respath(void);
     // draws the victory screen
     void draw_victory(const int width, const int height);
 public:

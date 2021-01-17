@@ -26,6 +26,8 @@
 #include "../include/states.h"
 // others
 #include <string>
+// c++17 header to get the relative path to the resources (textures, fonts...) to be loaded
+#include <filesystem>
 
 void Window::wnd_draw(Game& curr_game)
 {
@@ -92,3 +94,19 @@ void Window::wnd_draw(Game& curr_game)
     // and finally update the window
     main_wnd.display();
 }
+
+// gets the absolute path to the resources directory so that they're loaded correctly
+std::string Window::get_respath(void) {
+	std::string abs_path = std::filesystem::current_path().string();
+	std::string res_path = "";
+	int idx = abs_path.find("minesweeper");
+	if(idx != std::string::npos) {
+		res_path = abs_path + "/resources/";
+	}
+	
+#ifdef DEBUG
+	std::cout << "Resources path: " << res_path << "\n";
+#endif
+	return res_path; // returns the path as a string
+}
+

@@ -21,58 +21,45 @@
  */
 
  
-// window header
+// window header file
 #include "../include/window.h"
+
 // std lib headers
 #include <iostream>
-// c++17 header that supplies a way to get the cwd
-#include <filesystem>
 
+// costructor of the game window
 Window::Window(const int rows, const int cols)
 {
+	// creates the window with a given width, height and its title
+	this->main_wnd.create(
+		sf::VideoMode(cols * SIDE, rows * SIDE), 
+		"Minesweeper", 
+		sf::Style::Titlebar | sf::Style::Close); // window with titlebar and close button
+// prints debug info on the window just created
 #ifdef DEBUG
-    std::cout   << "Current working directory: "
-                << std::filesystem::current_path() << "\n";
+    std::cout << "new Window [" << rows << "x" << cols << "] with cell size " << SIDE << "\n";
 #endif
 
-    main_wnd.create(
-        // create a window of width, height pixels, based cell size
-        sf::VideoMode(cols * SIDE, rows * SIDE),
-        "Minesweeper", // the window's title
-        sf::Style::Titlebar | sf::Style::Close // titlebar and close button
-    );
-
-    // debug info
-#ifdef DEBUG
-    std::cout   << "New instance of Window (" << rows << "x" << cols
-                << "created at " << &main_wnd << "\n";
-#endif
+	std::string p_res = Window::get_respath();
 
     // load font used by the program (Arial Bold)
-    if(false == arial_bold.loadFromFile("fonts/Arial_Bold.ttf"))
+    if(!arial_bold.loadFromFile(p_res + "Arial_Bold.ttf"))
     {
-        if(false == arial_bold.loadFromFile("/usr/share/fonts/truetype/msttcorefonts/Arial_Bold.ttf"))
+        if(!arial_bold.loadFromFile("/usr/share/fonts/truetype/msttcorefonts/Arial_Bold.ttf"))
         {
-            std::cout << "Font Arial Bold not present in the system\n";
-
-            // destroy window...
+            std::cout << "Cannot find the path Arial Bold in the system: check if it's installed\n";
         }
     }
-
-    // debug info
-#ifdef DEBUG
-    std::cout << "Font Arial Bold loaded at "<< &arial_bold << "\n";
-#endif
+    // load flag texture from file
+    if(!flag_img.loadFromFile(p_res + "redflag.png"))
+    {
+        std::cout << "Texture redflag.png cannot be loaded\n";
+    }
 
     // then initialize the text object with the loaded font
     txt_obj.setFont(arial_bold);
     txt_obj.setCharacterSize(FONT_SZ);
     txt_obj.setFillColor(sf::Color::Black);
-
-    // debug info
-#ifdef DEBUG
-    std::cout << "Text object initialized at" << &txt_obj << "\n";
-#endif
 
     // initialize cells
     int i, j;
@@ -81,7 +68,6 @@ Window::Window(const int rows, const int cols)
     {
         std::cout << "Cannot initialize cell object\n";
 
-        // freeing...
     }
     for(i = 0; i < rows; i++)
     {
@@ -89,8 +75,6 @@ Window::Window(const int rows, const int cols)
         if(!cells[i])
         {
             std::cout << "Cannot initialize cell object\n";
-
-            // freeing...
         }
     }
     // set parameters for all cells in the matrix
@@ -106,24 +90,4 @@ Window::Window(const int rows, const int cols)
             cells[i][j].setOutlineColor(border_color);
         }
     }
-
-    // debug info
-#ifdef DEBUG
-    std::cout << "Cell object initialized at" << &cells << "\n";
-#endif
-
-    // load flag texture from file
-    if(!flag_img.loadFromFile("textures/redflag.png"))
-    {
-        std::cout << "Texture redflag.png cannot be loaded\n";
-
-        // window destroy....
-    }
-
-    // debug info
-#ifdef DEBUG
-    std::cout << "Texture object initialized at" << &flag_img << "\n";
-#endif
-
-    // window initialized
 }
