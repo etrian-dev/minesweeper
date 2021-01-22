@@ -98,8 +98,8 @@ void Window::wnd_draw(Game& curr_game)
 
 // gets the absolute path to the resources directory so that they're loaded correctly
 std::string Window::get_respath(void) {
-	std::string abs_path = std::filesystem::current_path().string();
-	std::string res_path = "";
+    std::string abs_path = std::filesystem::current_path().string();
+    std::string res_path = "";
 	int idx = abs_path.find("minesweeper");
 	if(idx != std::string::npos) {
 		res_path = abs_path + "/resources/";

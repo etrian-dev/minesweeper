@@ -9,7 +9,7 @@ The `-g` and `-D DEBUG` options are needed to get verbose debugging information 
 It is assumed that the compilation is launched from within the main directory of the repo,
 otherwise just alter the path to the source files. It's also assumed that sfml is already installed in the default location for your system, so that the compiler can find it directly upon linking. Otherwise, specify its path [as explained here](https://www.sfml-dev.org/tutorials/2.5/start-linux.php).  
 ### Compilation Requirements
-* C++ compiler that supports c++11 or above  
+* C++ compiler that supports c++17 or above  
 (tested with g++)
 * Developement files for the SFML library  
 (tested with 2.5.1, but any recent enough version should be fine)

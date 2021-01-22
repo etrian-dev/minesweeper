@@ -25,6 +25,9 @@
 // useful shared values between window logic and game logic
 #include "../include/states.h"
 
+// memory copying
+#include <cstring>
+
 // place mines and calc values excluding the [y][x] cell provided (the first move)
 void Game::init_game(const int x_clude, const int y_clude)
 {
@@ -190,8 +193,9 @@ const bool Game::get_continue(void)
     return keep_running;
 }
 
-void set_logic(const int y, const int x, State newstate) {
-	if(y >= 0 && y < m_rows && x >= 0 && x < m_cols) {
+void Game::set_logic(const int y, const int x, State newstate)
+{
+    if(y >= 0 && y < m_rows && x >= 0 && x < m_cols) {
 		this->logic[y][x] = newstate;
 	}
 	else {
