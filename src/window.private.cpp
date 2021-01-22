@@ -37,25 +37,26 @@ void Window::wnd_draw(Game& curr_game)
     int** logic = curr_game.get_logic();
     int** values = curr_game.get_values();
 
-    // clear the whole window to covered bg
+    // clear the whole window
     main_wnd.clear(bg_covered);
 
-    // object to store text bounds, used in centering text in cell
+    // object to store text bounds, used for centering the text in each cell
     sf::FloatRect bounds;
 
     int i, j;
-    // for loops to draw all the cells in the field
+    // draw all the cells
     for(i = 0; i < rows; i++)
     {
         for(j = 0; j < cols; j++)
         {
+        	// if cell [y][x] is flagged, then set this cell's texture 
+        	// to the flag texture (already loaded)
             if(curr_game.is_flagged(j, i))
             {
-                // set this rect object's texture to the flag
                 cells[i][j].setTexture(&flag_img, false);
             }
-            // else remove texture
-            else
+            // otherwise the texture (if present) needs to be removed
+            else if(cells[i][j].getTexture() != NULL)
             {
                 cells[i][j].setTexture(nullptr, false);
             }

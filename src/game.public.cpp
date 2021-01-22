@@ -153,14 +153,25 @@ bool Game::is_flagged(const int x, const int y)
     return true;
 }
 
-// just getters
+// just getters & setters
+// returns a shallow copy
 int** Game::get_logic(void)
 {
-    return logic;
+    int **logic_cpy = (int **)malloc(m_rows * sizeof(int*));
+    for(int i = 0; i < m_rows; i++) {
+    	logic_cpy[i] = (int *)malloc(m_cols * sizeof(int));
+    }
+    memcpy(logic_cpy, this->logic, m_rows * m_cols * sizeof(int));
+    return logic_cpy;
 }
 int** Game::get_values(void)
 {
-    return values;
+    int **val_cpy = (int **)malloc(m_rows * sizeof(int*));
+    for(int i = 0; i < m_rows; i++) {
+    	val_cpy[i] = (int *)malloc(m_cols * sizeof(int));
+    }
+    memcpy(val_cpy, this->values, m_rows * m_cols * sizeof(int));
+    return val_cpy;
 }
 const int Game::get_rows(void)
 {
@@ -177,6 +188,15 @@ const int Game::get_mines(void)
 const bool Game::get_continue(void)
 {
     return keep_running;
+}
+
+void set_logic(const int y, const int x, State newstate) {
+	if(y >= 0 && y < m_rows && x >= 0 && x < m_cols) {
+		this->logic[y][x] = newstate;
+	}
+	else {
+		printf("Warning: cell [%d][%d] is not valid\n", y, x);
+	}
 }
 
 // tests victory

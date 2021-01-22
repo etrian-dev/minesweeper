@@ -20,10 +20,11 @@
  * along with minesweeper. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-
 #ifndef GAME_H_INCLUDED
 #define GAME_H_INCLUDED
+
+// useful shared values between window logic and game logic
+#include "../include/states.h"
 
 // other stdlib headers
 #include <vector>
@@ -58,13 +59,14 @@ public:
     void init_game(const int x_clude, const int y_clude);
 
     // getters and setters
-    // they return a shallow copy of the value / set something
-    int** get_logic(void);
-    int** get_values(void);
+    int** get_logic(void); // a shallow copy of the state
+    int** get_values(void); // a shallow copy of the state
     const int get_rows(void);
     const int get_cols(void);
     const int get_mines(void);
     const bool get_continue(void);
+    
+    void set_logic(const int y, const int x, State newstate);
 
     // return true if cell [y][x] is flagged, false otherwise
     bool is_flagged(const int x, const int y);
